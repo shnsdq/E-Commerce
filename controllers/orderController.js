@@ -166,42 +166,8 @@ const placeOrderRazorpay = async (req, res) => {
  }
 
 //verify Razorpay
-const crypto = require("crypto");
 
 const verifyRazorpay = async (req, res) => {
-  try {
-    const {
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-      userId,
-      orderId, //  MongoDB order ID
-    } = req.body;
-
-    const secret = process.env.RAZORPAY_KEY_SECRET;
-
-    // Generate expected signature
-    const hmac = crypto.createHmac("sha256", secret);
-    hmac.update(`${razorpay_order_id}|${razorpay_payment_id}`);
-    const generated_signature = hmac.digest("hex");
-
-    if (generated_signature === razorpay_signature) {
-      // Signature is valid
-      await orderModel.findByIdAndUpdate(orderId, { payment: true });
-      await userModel.findByIdAndUpdate(userId, { cartData: {} });
-
-      return res.json({ success: true, message: "Payment verified" });
-    } else {
-      // Invalid signature — potential tampering
-      return res.status(400).json({ success: false, message: "Invalid payment signature" });
-    }
-  } catch (error) {
-    console.error("Razorpay verification error:", error);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
-
-/*const verifyRazorpay = async (req, res) => {
     try {
         const { userId, razorpay_order_id } = req.body
 
@@ -218,7 +184,7 @@ const verifyRazorpay = async (req, res) => {
         console.log(error)
         res.json({ success: false, message: error.message })
     }
-}*/
+}
 
 //All Orders data for Admin Panel
 const allOrders = async (req, res) => {
