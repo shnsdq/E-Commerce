@@ -1,6 +1,6 @@
 import mongoose from 'mongoose'
  
-const orderModel = new mongoose.Schema({
+const orderSchema = new mongoose.Schema({
     userId : {type:String, required:true},
     items : {type:Array, required:true},
     amount : {type:Number, required:true},
@@ -10,3 +10,7 @@ const orderModel = new mongoose.Schema({
     payment : {type:Boolean, required:true,default:false},
     date : {type:Number, required:true}
 }) 
+
+const orderModel = mongoose.models.order || mongoose.model('order',orderSchema);
+
+export default orderModel;
