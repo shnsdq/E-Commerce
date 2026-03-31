@@ -1,7 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect} from 'react'
 import { ShopContext } from '../context/ShopContext'
 import { useSearchParams } from 'react-router-dom'
-import axios from 'axios'
+import axios from 'axios' 
 import { toast } from 'react-toastify'
 
 const Verify = () => {

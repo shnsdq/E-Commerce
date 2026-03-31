@@ -45,7 +45,7 @@ const PlaceOrder = () => {
             setCartItems({})
             navigate('/orders')
           }
-          
+
         } catch (error) {
           console.log(error)
           toast.error(error.message)
@@ -177,7 +177,7 @@ const PlaceOrder = () => {
           </div>
         </div>
       </div>
-    </div>
+    </form>
   )
 }
 
