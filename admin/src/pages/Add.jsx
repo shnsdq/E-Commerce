@@ -23,10 +23,11 @@ const Add = ({ token }) => {
     e.preventDefault();
 
     try {
-      const formData = new formData()
+      const formData = new FormData()
 
       formData.append("name", name)
       formData.append("description", description)
+      formData.append("price", price)
       formData.append("category", category)
       formData.append("subCategory", subCategory)
       formData.append("bestseller", bestseller)
@@ -114,7 +115,7 @@ const Add = ({ token }) => {
         </div>
         <div>
           <p className='mb-2'>Product Price</p>
-          <input onChange={(e) => setPrice(e.target.value)} className='w-full px-3 py-2 sm:w-[120px] ' type="Number" placeholder='25' />
+          <input onChange={(e) => setPrice(e.target.value)} value={price} className='w-full px-3 py-2 sm:w-[120px] ' type="Number" placeholder='25' />
         </div>
 
       </div>
@@ -149,7 +150,7 @@ const Add = ({ token }) => {
         <label className='cursor-pointer' htmlFor="bestseller">Add to bestseller</label>
       </div>
 
-      <button type='submit' className='w-28 mt-4 bg-black text-white'>ADD</button>
+      <button type='submit' className='w-28 mt-4 bg-black text-white cursor-pointer'>ADD</button>
 
     </form>
   )

@@ -1,11 +1,11 @@
 import { v2 as cloudinary} from "cloudinary"
 import productModel from '../models/productModel.js'
 
-//function for add product
+//admin adds product
 const addProduct = async (req,res) => {
     try{
 
-        const {name,description,price,category, subcategory, sizes, bestseller} = req.body
+        const {name,description,price,category, subCategory, sizes, bestseller} = req.body
 
         const image1 = req.files.image1 && req.files.image1[0]
         const image2 = req.files.image2 && req.files.image2[0]
@@ -27,7 +27,7 @@ const addProduct = async (req,res) => {
             description,
             category,
             price: Number(price),
-            subcategory,
+            subCategory,
             bestseller: bestseller === "true" ? true : false,
             sizes: JSON.parse(sizes),
             image: imagesUrl,
@@ -39,12 +39,12 @@ const addProduct = async (req,res) => {
        const product = new productModel(productData);
        await product.save()
 
-        res.json({success:true,message:"Product Added"})
+       return res.json({success:true,message:"Product Added"})
 
 
     }catch(error){
          console.log(error);
-         res.json({success:false,message:error.message})
+         return res.json({success:false,message:error.message})
     }
 }
 
@@ -52,11 +52,11 @@ const addProduct = async (req,res) => {
 const listProducts = async (req,res) => {
      try {
         const products = await productModel.find({});
-        res.json({success:true,products})
+        return res.json({success:true,products})
 
      } catch (error) {
         console.log(error);
-        res.json({success:false,message:error.message})
+        return res.json({success:false,message:error.message})
      }
 }
 
@@ -65,11 +65,11 @@ const listProducts = async (req,res) => {
 const removeProduct = async (req,res) => {
     try{
         await productModel.findByIdAndDelete(req.body.id)
-        res.json({success:true,message:"Product Removed"})
+        return res.json({success:true,message:"Product Removed"})
 
     }catch(error){
         console.log(error);
-        res.json({success:false,message:error.message})
+        return res.json({success:false,message:error.message})
 
     }
 }
@@ -80,10 +80,11 @@ const singleProduct = async (req,res) => {
     try {
         const {productId} = req.body
         const product = await productModel.findById(productId)
-        res.json({success:true}) 
+        return res.json({success:true,product}) 
+        
     } catch (error) {
         console.log(error);
-        res.json({success:false,message:error.message})
+        return res.json({success:false,message:error.message})
     }
 }
 

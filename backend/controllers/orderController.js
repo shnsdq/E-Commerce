@@ -36,11 +36,11 @@ const placeOrder = async (req, res) => {
 
         await userModel.findByIdAndUpdate(userId, { cartData: {} })
 
-        res.json({ success: true, message: "Order Placed" })
+       return res.json({ success: true, message: "Order Placed" })
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 }
 
@@ -93,11 +93,11 @@ const placeOrderStripe = async (req, res) => {
             mode: 'payment',
         })
 
-        res.json({ success: true, session_url: session.url });
+       return res.json({ success: true, session_url: session.url });
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 }
 
@@ -110,14 +110,14 @@ const verifyStripe = async (req, res) => {
         if (success === "true") {
             await orderModel.findByIdAndUpdate(orderId, { payment: true })
             await userModel.findByIdAndUpdate(userId, { cartData: {} })
-            res.json({ success: true });
+            return res.json({ success: true });
         } else {
             await orderModel.findByIdAndDelete(orderId)
-            res.json({ success: false })
+            return res.json({ success: false })
         }
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 } 
 
@@ -154,13 +154,13 @@ const placeOrderRazorpay = async (req, res) => {
                  console.log(error)
                  return res.json({success:false,message:error})
              }
-             res.json({success:true,order})
+            return res.json({success:true,order})
              
          })
              
          } catch (error) {
          console.log(error)
-         res.json({success:false,message:error.message})
+         return res.json({success:false,message:error.message})
      }
  
  }
@@ -175,14 +175,14 @@ const verifyRazorpay = async (req, res) => {
         if (orderInfo.status === 'paid') {
             await orderModel.findByIdAndUpdate(orderInfo.receipt, { payment: true });
             await userModel.findByIdAndUpdate(userId, { cartData: {} })
-            res.json({ success: true, message: "Payment successful" })
+            return res.json({ success: true, message: "Payment successful" })
         } else {
-            res.json({ success: false, message: "Payment failed" })
+            return res.json({ success: false, message: "Payment failed" })
         }
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 }
 
@@ -191,11 +191,11 @@ const allOrders = async (req, res) => {
     try {
 
         const orders = await orderModel.find({})
-        res.json({ success: true, orders })
+        return res.json({ success: true, orders })
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 }
 
@@ -206,11 +206,11 @@ const userOrders = async (req, res) => {
         const { userId } = req.body
 
         const orders = await orderModel.find({ userId })
-        res.json({ success: true, orders })
+        return res.json({ success: true, orders })
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 }
 
@@ -222,15 +222,13 @@ const updateStatus = async (req, res) => {
         const { orderId, status } = req.body
 
         await orderModel.findByIdAndUpdate(orderId, { status })
-        res.json({ success: true, message: "Status Updated" })
+        return res.json({ success: true, message: "Status Updated" })
 
     } catch (error) {
         console.log(error)
-        res.json({ success: false, message: error.message })
+        return res.json({ success: false, message: error.message })
     }
 }
-
-
 
 
 export { placeOrder, placeOrderRazorpay, placeOrderStripe, allOrders, userOrders, updateStatus, verifyStripe, verifyRazorpay }
