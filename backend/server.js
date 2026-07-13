@@ -17,7 +17,7 @@ connectCloudinary()
 // middlewares
 app.use(express.json())
 app.use(cors({
-    origin:"https://e-commerce-forever-frontend-byxutuwvk.vercel.app",
+    origin:"https://e-commerce-forever-frontend-seven.vercel.app",
     credentials: true
 }));
 
